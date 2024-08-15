@@ -3,6 +3,8 @@
 #include "Neuron.h"
 #include <vector>
 
+using namespace std;
+
 __global__ void matrixMultiplyKernel(double* A, double* B, double* C, int m, int n, int k) {
     int row = blockIdx.y * blockDim.y + threadIdx.y;
     int col = blockIdx.x * blockDim.x + threadIdx.x;
@@ -16,15 +18,15 @@ __global__ void matrixMultiplyKernel(double* A, double* B, double* C, int m, int
     }
 }
 
-extern "C" void cudaMatrixMultiply(const std::vector<std::vector<Neuron>>& A, 
-                                   const std::vector<std::vector<Neuron>>& B, 
-                                   std::vector<std::vector<Neuron>>& C) {
+extern "C" void cudaMatrixMultiply(const vector<vector<Neuron>>& A, 
+                                   const vector<vector<Neuron>>& B, 
+                                   vector<vector<Neuron>>& C) {
     int m = A.size();
     int n = A[0].size();
     int k = B[0].size();
 
     // Flatten matrices
-    std::vector<double> flatA(m * n), flatB(n * k), flatC(m * k);
+    vector<double> flatA(m * n), flatB(n * k), flatC(m * k);
     for (int i = 0; i < m; i++)
         for (int j = 0; j < n; j++)
             flatA[i * n + j] = A[i][j].value;
@@ -58,7 +60,7 @@ extern "C" void cudaMatrixMultiply(const std::vector<std::vector<Neuron>>& A,
     cudaFree(d_C);
 
     // Reshape result
-    C.resize(m, std::vector<Neuron>(k));
+    C.resize(m, vector<Neuron>(k));
     for (int i = 0; i < m; i++)
         for (int j = 0; j < k; j++)
             C[i][j].value = flatC[i * k + j];
