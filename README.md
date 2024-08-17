@@ -4,6 +4,8 @@
 
 Mini PyTorch is a lightweight C++ library for building and training neural networks. It provides the essential components for constructing and managing neural networks, including various types of layers and functionalities for training and evaluation.
 
+I tried to optimize the CUDA kernel function for matrix multiplication with memory coalescing and tiling (still a beginner (: )
+
 ## Classes
 
 ### `Neuron`
