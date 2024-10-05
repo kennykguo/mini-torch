@@ -52,21 +52,55 @@ void Network::backward() {
     }
 }
 
+// vector<vector<Neuron>> Network::matrixMultiply(
+//     const vector<vector<Neuron>>& matrixOne, int rowsOne, int colsOne,
+//     const vector<vector<Neuron>>& matrixTwo, int rowsTwo, int colsTwo) {
+    
+//     vector<vector<Neuron>> result;
+
+//     cudaMatrixMultiply(matrixOne, matrixTwo, result);
+
+//     return result;
+// }
+
 vector<vector<Neuron>> Network::matrixMultiply(
     const vector<vector<Neuron>>& matrixOne, int rowsOne, int colsOne,
     const vector<vector<Neuron>>& matrixTwo, int rowsTwo, int colsTwo) {
     
-    vector<vector<Neuron>> result;
+    // cout << "Entering matrixMultiply function" << endl;
+    // cout << "matrixOne dimensions: " << matrixOne.size() << "x" << (matrixOne.empty() ? 0 : matrixOne[0].size()) << endl;
+    // cout << "matrixTwo dimensions: " << matrixTwo.size() << "x" << (matrixTwo.empty() ? 0 : matrixTwo[0].size()) << endl;
+    // cout << "Passed dimensions: " << rowsOne << "x" << colsOne << " * " << rowsTwo << "x" << colsTwo << endl;
 
-    cudaMatrixMultiply(matrixOne, matrixTwo, result);
+    // Ensure the dimensions are correct
+    // assert(colsOne == rowsTwo && "Matrix dimensions must match for multiplication.");
+    // assert(rowsOne == matrixOne.size() && "rowsOne doesn't match matrixOne size");
+    // assert(colsTwo == matrixTwo[0].size() && "colsTwo doesn't match matrixTwo column size");
 
+    // cout << "Initializing result matrix" << endl;
+    // // Initialize result matrix with the correct dimensions
+    vector<vector<Neuron>> result(rowsOne, vector<Neuron>(colsTwo));
+
+    // cout << "Starting matrix multiplication" << endl;
+    // Perform the matrix multiplication
+    for (int i = 0; i < rowsOne; ++i) {
+        for (int j = 0; j < colsTwo; ++j) {
+            double currentSum = 0.0;
+            for (int k = 0; k < colsOne; ++k) {
+                // cout << "Accessing matrixOne[" << i << "][" << k << "] and matrixTwo[" << k << "][" << j << "]" << endl;
+                currentSum += matrixOne[i][k].value * matrixTwo[k][j].value;
+            }
+            result[i][j].value = currentSum;
+        }
+    }
+
+    // cout << "Matrix multiplication completed" << endl;
     return result;
 }
-
 
 void Network::setLearningRate(double lr) {
     for (const auto& layer : layers) {
         layer->setLearningRate(lr);
     }
-    cout << "Learning rate successfully set to: "<< lr<< endl;
+    // cout << "Learning rate successfully set to: "<< lr<< endl;
 }

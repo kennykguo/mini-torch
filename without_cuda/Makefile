@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -Wall -g
+CXXFLAGS = -Wall -g -std=c++17
 TARGET = nn
 SRCS = main.cpp Network.cpp LinearLayer.cpp Neuron.cpp
 OBJS = $(SRCS:.cpp=.o)
