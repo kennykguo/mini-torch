@@ -13,3 +13,7 @@ public:
 private:
     vector<vector<Neuron>> input;
 };
+
+extern "C" void cudaReLU(const vector<vector<Neuron>>& input, 
+                          vector<vector<Neuron>>& output, 
+                          int rows, int cols);
