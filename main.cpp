@@ -124,7 +124,7 @@ int main() {
     
     // Define model architecture
     Network network;
-    network.addLayer(make_unique<LinearLayer>(256, 128));
+    network.addLayer(make_unique<LinearLayer>(784, 128));
     network.addLayer(make_unique<ReLU>());
     network.addLayer(make_unique<LinearLayer>(128, 128));
     network.addLayer(make_unique<ReLU>());

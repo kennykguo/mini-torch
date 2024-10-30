@@ -37,6 +37,7 @@ vector<vector<Neuron>> LinearLayer::forward(const vector<vector<Neuron>>& input)
 
 
 vector<vector<Neuron>> LinearLayer::backward(const vector<vector<Neuron>>& gradOutput) {
+    
     // Tranpose weights matrix
     vector<vector<Neuron>> weightsTransposed(outputSize, vector<Neuron>(inputSize));
     // TODO: Implement as a CUDA kernel
