@@ -3,9 +3,10 @@
 
 using namespace std;
 
+// TODO: Implement as a CUDA kernel
 vector<vector<Neuron>> ReLU::forward(const vector<vector<Neuron>>& input) {
-    lastInput = input;
-    vector<vector<Neuron>> output = input;
+    this->input = input;
+    vector<vector<Neuron>> output = this->input;
     for (auto& row : output) {
         for (auto& neuron : row) {
             // ReLU activation: max(0, x)
@@ -15,13 +16,14 @@ vector<vector<Neuron>> ReLU::forward(const vector<vector<Neuron>>& input) {
     return output;
 }
 
-vector<vector<Neuron>> ReLU::backward(const vector<vector<Neuron>>& gradOutput) {
-    vector<vector<Neuron>> gradInput = gradOutput;
-    for (size_t i = 0; i < gradInput.size(); ++i) {
-        for (size_t j = 0; j < gradInput[i].size(); ++j) {
+// TODO: implement as a CUDA kernel
+vector<vector<Neuron>> ReLU::backward(const vector<vector<Neuron>>& grad_output) {
+    vector<vector<Neuron>> grad_input = grad_output;
+    for (size_t i = 0; i < grad_input.size(); ++i) {
+        for (size_t j = 0; j < grad_input[i].size(); ++j) {
             // ReLU gradient: 1 if input > 0, 0 otherwise
-            gradInput[i][j].value *= (lastInput[i][j].value > 0) ? 1 : 0;
+            grad_input[i][j].value *= (input[i][j].value > 0) ? 1 : 0;
         }
     }
-    return gradInput;
+    return grad_input;
 }

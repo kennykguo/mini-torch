@@ -18,5 +18,5 @@ public:
 
 // Only the Layer class and its derived classes can access these attributes
 protected:
-    double learningRate = 0.01;
+    double learning_rate = 0.01;
 };

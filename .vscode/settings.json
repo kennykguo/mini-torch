@@ -106,6 +106,16 @@
     "unordered_map": "cpp",
     "variant": "cpp",
     "vector": "cpp",
-    "algorithm": "cpp"
-  }
+    "algorithm": "cpp",
+    "utility": "cpp",
+    "__tree": "cpp",
+    "deque": "cpp",
+    "iterator": "cpp",
+    "list": "cpp",
+    "map": "cpp",
+    "queue": "cpp",
+    "random": "cpp",
+    "set": "cpp",
+    "stack": "cpp"
+}
 }

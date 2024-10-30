@@ -2,21 +2,18 @@
 #include "Layer.h"
 using namespace std;
 
-// LinearLayer class inherits from Layer, implementing polymorphism
+// LinearLayer class inherits from Layer
 class LinearLayer : public Layer {
 public:
-
-    LinearLayer(int inputSize, int outputSize);
+    LinearLayer(int input_size, int output_size);
     // Virtual functions from Layer class, overridden here
     vector<vector<Neuron>> forward(const vector<vector<Neuron>>& input) override;
-    vector<vector<Neuron>> backward(const vector<vector<Neuron>>& gradOutput) override;
-    void setLearningRate(double lr) override { learningRate = lr; }
+    vector<vector<Neuron>> backward(const vector<vector<Neuron>>& grad_output) override;
+    void setLearningRate(double lr) override { learning_rate = lr; }
 
 private:
-    int inputSize;
-    int outputSize;
-    // Weights matrix
+    int input_size;
+    int output_size;
     vector<vector<Neuron>> weights;
-    // Input matrix into layer
-    vector<vector<Neuron>> lastInput;
+    vector<vector<Neuron>> input;
 };
