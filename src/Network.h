@@ -30,6 +30,7 @@ private:
 };
 
 // External C function declaration for CUDA matrix multiplication
+// Need to define this for CUDA
 extern "C" void cudaMatrixMultiply(const vector<vector<Neuron>>& A, 
                                    const vector<vector<Neuron>>& B, 
                                    vector<vector<Neuron>>& C);

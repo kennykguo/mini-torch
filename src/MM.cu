@@ -2,7 +2,6 @@
 #include <device_launch_parameters.h>
 #include "Neuron.h"
 #include <vector>
-
 using namespace std;
 
 __global__ void matrixMultiplyKernel(double* A, double* B, double* C, int m, int n, int k) {

@@ -1,14 +1,12 @@
 NVCC = nvcc
 CXX = g++
-# NVCCFLAGS = -std=c++17 -O3
-# CXXFLAGS = -std=c++17 -O3
 
 NVCCFLAGS = -std=c++17 -O3 -g
 CXXFLAGS = -std=c++17 -O3 -g
 
 SOURCES = main.cpp Network.cpp LinearLayer.cpp Neuron.cpp ReLU.cpp SoftmaxCrossEntropy.cpp
 
-CUDA_SOURCES = cuda_operations.cu
+CUDA_SOURCES = MM.cu
 
 OBJECTS = $(SOURCES:.cpp=.o)
 CUDA_OBJECTS = $(CUDA_SOURCES:.cu=.o)
