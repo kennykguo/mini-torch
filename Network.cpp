@@ -23,15 +23,12 @@ vector<vector<Neuron>> Network::forward(const vector<vector<Neuron>>& input, con
 
     // If the lossLayer exists, set the labels before the forward pass
     if (lossLayer) {
-        // cout << "Setting labels size: " << labels.size() << " || " << (labels.empty() ? 0 : labels[0].size()) << endl;
         lossLayer->setLabels(labels);
     }
 
     // Forward pass through each layer
     vector<vector<Neuron>> current = input;
     for (const auto& layer : layers) {
-        // cout << "Layer forward pass" << endl;
-        // cout << "Current size: " << current.size() << " || " << current[0].size() << endl;
         current = layer->forward(current);
         layerOutputs.push_back(current);
     }
@@ -40,13 +37,11 @@ vector<vector<Neuron>> Network::forward(const vector<vector<Neuron>>& input, con
     if (lossLayer) {
         loss = lossLayer->getLoss();
     }
-
     return current;
 }
 
 void Network::backward() {
     vector<vector<Neuron>> grad = layers.back()->backward(layerOutputs.back());
-
     for (int i = layers.size() - 2; i >= 0; --i) {
         grad = layers[i]->backward(grad);
     }

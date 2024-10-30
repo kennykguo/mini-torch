@@ -12,14 +12,18 @@
 #include <chrono>
 #include <iomanip>
 #include <memory>
-
 using namespace std;
 
+
+// CONSTANTS
 const int INPUT_SIZE = 784; // Number of pixels in each image
 const int BATCH_SIZE = 16; // Batch size for processing
 const int NUM_CLASSES = 10; // Number of classes (digits 0-9)
+const string FILE_NAME = "train.csv";
+const int EPOCHS = 3;
 
-tuple<vector<vector<Neuron>>, vector<vector<vector<Neuron>>>> readCSV(const string& filename) {
+// Helper function for reading train.csv -> returns tuples of 2D vectors (matrices)
+tuple< vector<vector<Neuron>>, vector<vector<vector<Neuron>>> > readCSV(const string& filename) {
     ifstream file(filename);
     vector<vector<Neuron>> labels;
     vector<vector<vector<Neuron>>> batches;
@@ -87,6 +91,7 @@ tuple<vector<vector<Neuron>>, vector<vector<vector<Neuron>>>> readCSV(const stri
     return make_tuple(labels, batches);
 }
 
+// One hot encode vector - input is a label, output is a one hot vector
 vector<vector<Neuron>> oneHotEncode(const vector<Neuron>& labels) {
     vector<vector<Neuron>> encodedLabels;
     for (const auto& label : labels) {
@@ -100,64 +105,55 @@ vector<vector<Neuron>> oneHotEncode(const vector<Neuron>& labels) {
     return encodedLabels;
 }
 
+
 int main() {
     cout << "Starting program with CUDA acceleration:\n";
-
     // Define our data
-    string filename = "train.csv";
+    string filename = FILE_NAME;
     auto [labels, batches] = readCSV(filename);
-
     cout << "Labels size: " << labels.size() << "\n";
     cout << "Batches size: " << batches.size() << "\n";
-
     // Print the shape of the first batch of labels
     // if (!labels.empty()) {
     //     cout << "First batch of labels size: " << labels[0].size() << "\n";
     // }
-
     // Example of one-hot encoding and its shape
     vector<vector<Neuron>> x = oneHotEncode(labels[0]);
     // cout << "One-hot encoded labels size: " << x.size() << " || " << x[0].size() << "\n";
 
+    
     // Define model architecture
     Network network;
-    network.addLayer(make_unique<LinearLayer>(784, 512));
+    network.addLayer(make_unique<LinearLayer>(256, 128));
     network.addLayer(make_unique<ReLU>());
-    network.addLayer(make_unique<LinearLayer>(512, 512));
+    network.addLayer(make_unique<LinearLayer>(128, 128));
     network.addLayer(make_unique<ReLU>());
-    network.addLayer(make_unique<LinearLayer>(512, 10));
+    network.addLayer(make_unique<LinearLayer>(128, 10));
     network.addLayer(make_unique<SoftmaxCrossEntropy>(10));
     network.setLearningRate(0.001);
-    cout << "here" << endl;
-
     auto start_time = chrono::high_resolution_clock::now();
 
+
     // Training loop
-    for (size_t epoch = 0; epoch < 5; ++epoch) {  // 5 epochs as an example
-    
-        for (size_t i = 0; i < batches.size(); ++i) {
-
-            // One-hot encode the labels for this batch
+    for (int epoch = 0; epoch < EPOCHS; ++epoch) {
+        // Looping over all examples in the batch
+        for (int i = 0; i < batches.size(); ++i) {
+            // Create a batch of one hot labels
             vector<vector<Neuron>> oneHotLabels = oneHotEncode(labels[i]);
-
-            // Print shape of the current batch of one-hot encoded labels
-            // cout << "Epoch " << epoch << ", Batch " << i << ", One-hot encoded labels size: " << oneHotLabels.size() << " || " << oneHotLabels[0].size() << "\n";
-            
-            auto output = network.forward(batches[i], oneHotLabels);
-
+            // Forward pass
+            vector<std::vector<Neuron>> output = network.forward(batches[i], oneHotLabels);
+            // Backward pass
             network.backward();
-            
-            if (i % 100 == 0) {  // Print loss every 100 batches
+            // Print loss every 100 batches
+            if (i % 100 == 0) {  
                 cout << "Epoch " << epoch << " || Batch " << i << "|| Loss: " << network.getLoss() << endl;
             }
-
         }
-
     }
-
+    
+    // Calculate the total runtime and print it
     auto end_time = chrono::high_resolution_clock::now();
     auto duration = chrono::duration_cast<chrono::milliseconds>(end_time - start_time);
-
     cout << "Training completed. Total runtime: " << duration.count() << " milliseconds" << endl;
 
     return 0;
