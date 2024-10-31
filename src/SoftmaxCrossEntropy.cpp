@@ -9,12 +9,12 @@ using namespace std;
 SoftmaxCrossEntropy::SoftmaxCrossEntropy(int num_classes) : num_classes(num_classes), loss(0) {}
 
 vector<vector<Neuron>> SoftmaxCrossEntropy::forward(const vector<vector<Neuron>>& input) {
-    if (input.empty() || input[0].size() != this->num_classes) {
-        throw runtime_error("Invalid input dimensions.");
-    }
-    if (labels.empty() || labels.size() != input.size() || labels[0].size() != this->num_classes) {
-        throw runtime_error("Labels not set or have incorrect dimensions.");
-    }
+    // if (input.empty() || input[0].size() != this->num_classes) {
+    //     throw runtime_error("Invalid input dimensions.");
+    // }
+    // if (labels.empty() || labels.size() != input.size() || labels[0].size() != this->num_classes) {
+    //     throw runtime_error("Labels not set or have incorrect dimensions.");
+    // }
 
     this->input = input;
     this->output.resize(input.size(), vector<Neuron>(this->num_classes));
@@ -46,9 +46,9 @@ vector<vector<Neuron>> SoftmaxCrossEntropy::forward(const vector<vector<Neuron>>
 }
 
 vector<vector<Neuron>> SoftmaxCrossEntropy::backward(const vector<vector<Neuron>>& gradOutput) {
-    if (gradOutput.empty() || gradOutput.size() != this->output.size() || gradOutput[0].size() != this->num_classes) {
-        throw runtime_error("Invalid gradOutput dimensions");
-    }
+    // if (gradOutput.empty() || gradOutput.size() != this->output.size() || gradOutput[0].size() != this->num_classes) {
+    //     throw runtime_error("Invalid gradOutput dimensions");
+    // }
 
     vector<vector<Neuron>> gradInput = this->output;
     // TODO: Convert to CUDA kernel
@@ -62,9 +62,9 @@ vector<vector<Neuron>> SoftmaxCrossEntropy::backward(const vector<vector<Neuron>
 }
 
 void SoftmaxCrossEntropy::setLabels(const vector<vector<Neuron>>& labels) {
-    if (labels.empty() || labels[0].empty()) {
-        throw runtime_error("Labels not set or have incorrect dimensions");
-    }
+    // if (labels.empty() || labels[0].empty()) {
+    //     throw runtime_error("Labels not set or have incorrect dimensions");
+    // }
     this->labels = labels;
 }
 
