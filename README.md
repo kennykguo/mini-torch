@@ -5,6 +5,11 @@
 Mini PyTorch is a lightweight C++ library for building and training neural networks. It provides the essential components for constructing and managing neural networks, including various types of layers and functionalities for training and evaluation.
 My goal with this project is to eventually, generate LLVM IR representations for all classes, and build up my way to a Transformer block in C++.
 
+## Built With
+![LLVM](https://img.shields.io/badge/LLVM-%23000000.svg?style=for-the-badge&logo=llvm&logoColor=white)
+![CUDA](https://img.shields.io/badge/cuda-000000.svg?style=for-the-badge&logo=nVIDIA&logoColor=green)
+![C++](https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white)
+
 ## Classes
 
 ### `Neuron`
