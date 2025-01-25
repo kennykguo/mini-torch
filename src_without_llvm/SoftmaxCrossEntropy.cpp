@@ -19,6 +19,7 @@ vector<vector<Neuron>> SoftmaxCrossEntropy::forward(const vector<vector<Neuron>>
     this->input = input;
     this->output.resize(input.size(), vector<Neuron>(this->num_classes));
     loss = 0;
+    
     // TODO: convert to CUDA kernel
     for (int i = 0; i < input.size(); ++i) {
         // Find the maximum value in the input for numerical stability
